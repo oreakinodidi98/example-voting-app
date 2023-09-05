@@ -47,5 +47,5 @@ CMD ["gunicorn", "app:app", "-b", "0.0.0.0:80", "--log-file", "-", "--access-log
 # build dockerfile 
 # enter directory where dockerfile is located
 # docker image build -t oreakinodidi/voteapp-python:v1 .
-# docker run -idt -p 80 oreakinodidi/voteapp-python:v0.1.0
+# docker run -idt -p 80 oreakinodidi/voteapp-python:v1
 # docker ps -l to see if container is running
