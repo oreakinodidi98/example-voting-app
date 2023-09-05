@@ -1,42 +1,65 @@
+# docker-compose.yml
+# define version of docker-compose
 version: "3"
+# define networks
 networks: 
+# define network name = vote
   vote: 
+  # define driver for network = bridge
     driver: bridge
-
+# define volumes
 volumes: 
+# define volume name = db-data
    db-data: 
-
+# define services , which are the microservices making up this full stack application
 services: 
+# define service name = vote
     vote: 
-      image: schoolofdevops/vote
+    # define image name for this service = oreakinodidi/voteapp-python:v1
+      image: oreakinodidi/voteapp-python:v1
+      # define ports for this service = 5000:80
       ports: 
         - 80
+        # define networks for this service = vote
       networks: 
         - vote
+        # define what this service depends on = redis service
       depends_on: 
         - redis
 
+# define service name = redis
     redis: 
+    # define image name for this service = redis:alpine
       image: redis:alpine
+      # define networks for this service = vote
       networks: 
         - vote
     
+    # define service name = worker
     worker: 
-      image: initcron/worker:v2
+    # define image name for this service = initcron/worker:v2
+      image: oreakinodidi/workerapp-maven:v2
       networks: 
         - vote
       depends_on: 
         - redis
+        - db
  
+ # define service name = db
     db: 
+    # define image name for this service = postgres:9.4
       image: postgres:9.4
+      # define networks for this service = vote
       networks: 
         - vote
+      # define volumes for this service = db-data:/var/lib/postgresql/data
       volumes:
         - "db-data:/var/lib/postgresql/data"
    
+    # define service name = result
     results: 
-      image: schoolofdevops/vote-result
+      image: oreakinodidi/resultapp-pynodejsthon:v2
+      # define ports for this service = 5001:80
       ports:
         - 5001:80
       depends_on: 
