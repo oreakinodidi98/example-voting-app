@@ -14,7 +14,7 @@
 # build dockerfile 
 # enter directory where dockerfile is located -> so worker
 # docker image build -t oreakinodidi/workerapp-maven:v1 .
-# docker run -idt oreakinodidi/workerapp-maven:v1
+# docker run -it --rm oreakinodidi/workerapp-maven:v1
 # docker ps -l to see if container is running
 
 ############## Multi stage docker file #############################
