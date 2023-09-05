@@ -7,4 +7,8 @@ docker image ls
 #build entire stack
 docker-compose -f simple-docker-compose.yaml up -d
 # check containers runnig 
-docker compose postgres
+docker compose ps 
+# run 
+docker-compose -f simple-docker-compose.yaml up -d 
+#down 
+docker-compose -f simple-docker-compose.yaml down
