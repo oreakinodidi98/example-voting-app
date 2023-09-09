@@ -55,13 +55,15 @@ services:
       # define volumes for this service = db-data:/var/lib/postgresql/data
       volumes:
         - "db-data:/var/lib/postgresql/data"
+      environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
    
     # define service name = result
     results: 
       image: oreakinodidi/resultapp-pynodejsthon:v2
       # define ports for this service = 5001:80
       ports:
-        - 5001:80
+        - 80
       depends_on: 
         - db
       networks: 

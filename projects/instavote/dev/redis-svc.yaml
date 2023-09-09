@@ -1,0 +1,18 @@
+# svc for redis
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    role: redis
+    tier: back
+  namespace: instavotedev
+spec:
+  ports:
+  - port: 6379
+    targetPort: 6379
+    protocol: TCP
+  selector:
+    app: redis
+  #type: clusterIP
+  # if i create a service and dont define the type it will be clusterIP by default

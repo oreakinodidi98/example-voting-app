@@ -1,0 +1,47 @@
+# pod spec in yaml format
+apiVersion: apps/v1
+# api object is defined in kind. so this is a replicaSet
+kind: ReplicaSet
+# metadata is a map of string to string
+metadata:
+  name: vote
+  labels:
+  # pod label in the form of key: value
+    app: python
+    role: vote
+    version: v1
+# spec is the property of pod
+spec:
+# replicas is the property of replicaSet, provides scaling
+  replicas: 4
+  # for the high availability of the pods
+  selector:
+    matchLabels:
+      app: python
+      role: vote
+      version: v1
+    # matchExpressions:
+    #   - key: version
+    #     operator: In
+    #     values: [va ,v2, v3, v4]
+  # temoplate is the property of replicaSet, its how we lunch pods
+  template:
+    metadata:
+      name: vote
+      labels:
+      # pod label in the form of key: value
+        app: python
+        role: vote
+        version: v1
+    spec:
+      containers:
+      - name: app
+        image: oreakinodidi/voteapp-python:v1
+        # updating the pod with resource constraints
+        resources:
+          # requests:
+          #   cpu: "50"
+          #   memory: "64Mi"
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"

@@ -1,0 +1,38 @@
+#creating a deployment for redis 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: instavotedev
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      role: redis
+      tier: back
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: redis
+        role: redis
+        tier: back
+    spec:
+      containers:
+      - name: redis
+        image: redis:alpine
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            cpu: "0.5"
+            memory: "512Mi"
+        ports:
+        - containerPort: 6379
+          protocol: TCP
+       # restartPolicy: Always
+      #   volumeMounts:
+      #   - name: redis-data
+      #     mountPath: /data
+      # volumes:
+      # - name: redis-data
+      #   emptyDir: {}

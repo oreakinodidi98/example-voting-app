@@ -1,0 +1,27 @@
+# pod spec in yaml format
+apiVersion: v1
+# api object is defined in kind
+kind: Pod
+# metadata is a map of string to string
+metadata:
+  name: vote
+  labels:
+  # pod label in the form of key: value
+    app: python
+    role: vote
+    version: v1
+# spec is the property of pod
+spec:
+  containers:
+  - name: app
+    image: oreakinodidi/voteapp-python:v1
+    # updating the pod with resource constraints
+    resources:
+      # requests:
+      #   cpu: "50"
+      #   memory: "64Mi"
+      limits:
+        cpu: "0.5"
+        memory: "512Mi"
+# to include another container in the pod use - name: container-name
+  
