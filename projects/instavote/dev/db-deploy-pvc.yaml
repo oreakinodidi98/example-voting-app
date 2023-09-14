@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: db
+  namespace: instavotedev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      tier: back
+      app: postgres
+  minReadySeconds: 10
+  template:
+    metadata:
+      labels:
+        app: postgres
+        role: db
+        tier: back
+        version: "9.4"
+    spec:
+      containers:
+      - image: postgres:12-alpine
+        imagePullPolicy: Always
+        name: db
+        env:
+          - name: POSTGRES_HOST_AUTH_METHOD
+            value: trust
+        ports:
+        - containerPort: 5432
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: db-vol
+     #create a volume with a pvc
+      volumes:
+      - name: db-vol
+        persistentVolumeClaim:
+          claimName: db-pvc

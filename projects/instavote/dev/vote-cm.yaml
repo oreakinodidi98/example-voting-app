@@ -1,0 +1,10 @@
+#config map or vote application 
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: vote
+  namespace: instavotedev
+data:
+#defining two enviroment variables for the vote application
+  OPTION_A: "Cats"
+  OPTION_B: "Dogs"

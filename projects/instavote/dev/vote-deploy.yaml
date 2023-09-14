@@ -1,0 +1,61 @@
+# pod spec in yaml format
+apiVersion: apps/v1
+# api object is defined in kind. so this is a deployment
+kind: Deployment
+# metadata is a map of string to string
+metadata:
+  name: vote
+  labels:
+  # pod label in the form of key: value
+    #app: python
+    role: vote
+    #version: v1
+# spec is the property of pod
+spec:
+  strategy:
+  #default set to rolling update
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      #this means i will always have 11 pods available
+      maxUnavailable: 1
+  #revisionHistoryLimit is the number of old replicaSets to retain to allow rollback
+  revisionHistoryLimit: 4
+  #controlls delay between the 2 batches of pods
+  minReadySeconds: 20 
+#replicas is the property of replicaSet, provides scaling
+  replicas: 12
+  # for the high availability of the pods
+  selector:
+    matchLabels:
+      #app: python
+      role: vote
+      #version: v1
+  #matchExpressions is used to match pods with labels
+    matchExpressions:
+      - key: version
+        operator: Exists
+  # temoplate is the property of replicaSet, its how we lunch pods
+  template:
+    metadata:
+      name: vote
+      labels:
+      # pod label in the form of key: value
+        app: python
+        role: vote
+        version: v1
+    spec:
+      containers:
+      - name: app
+        image: oreakinodidi/voteapp-python:v1
+        # updating the pod with resource constraints
+        envFrom:
+          - configMapRef:
+              name: vote-config
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "64Mi"
+          limits:
+            cpu: "250m"
+            memory: "128Mi"
